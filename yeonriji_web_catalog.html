@@ -460,6 +460,83 @@
     .fade-in { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
     .fade-in.visible { opacity: 1; transform: none; }
 
+    /* ── MOBILE (≤ 768px) ── */
+    @media (max-width: 768px) {
+      /* NAV */
+      nav { padding: 0 20px; }
+      .nav-links { gap: 0; }
+      .nav-links li:not(:last-child) { display: none; }
+
+      /* HERO */
+      .hero {
+        grid-template-columns: 1fr;
+        padding: 40px 20px 36px;
+        gap: 32px;
+        min-height: auto;
+      }
+      .hero-title { font-size: 56px; }
+      .hero-img-panel { height: 56vw; order: -1; }
+      .hero-sub { font-size: 16px; }
+
+      /* ABOUT */
+      .about-sec {
+        grid-template-columns: 1fr;
+        padding: 56px 20px;
+        gap: 32px;
+      }
+      .about-title { font-size: 30px; }
+      .about-single-img { min-height: 240px; }
+
+      /* QUOTE */
+      .quote-sec { padding: 56px 20px; }
+      .q-text { font-size: 17px; }
+
+      /* CURRICULUM */
+      .curr-sec { padding: 56px 20px; }
+      .sessions { grid-template-columns: 1fr; }
+      .s-card { padding: 28px 22px; }
+      .display { font-size: 26px; }
+
+      /* THEORY */
+      .theory-sec { padding: 56px 20px; }
+      .theory-grid { grid-template-columns: 1fr; gap: 36px; }
+
+      /* PLANNER */
+      .planner-sec {
+        grid-template-columns: 1fr;
+        padding: 56px 20px;
+        gap: 36px;
+      }
+      .planner-num { font-size: 60px; }
+      .planner-title { font-size: 22px; }
+      .planner-book { padding: 28px 20px 22px 30px; }
+
+      /* INFO */
+      .info-sec {
+        grid-template-columns: 1fr;
+        padding: 56px 20px;
+        gap: 36px;
+      }
+      .info-head { font-size: 30px; }
+
+      /* TESTIMONIALS */
+      .testi-sec { padding: 56px 20px; }
+      .t-grid { grid-template-columns: 1fr; }
+
+      /* CTA */
+      .cta-sec { padding: 72px 20px; }
+      .cta-title { font-size: 32px; }
+
+      /* FOOTER */
+      footer { padding: 36px 20px; }
+      .footer-in {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 24px;
+      }
+      .f-right { text-align: left; }
+    }
+
     /* ── PRINT ── */
     @media print {
       nav, .cta-btns { display: none !important; }
