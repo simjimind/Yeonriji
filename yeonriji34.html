@@ -52,7 +52,10 @@
 
     .btn-wrap {
       margin-top: 24px;
-      text-align: center;
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .cta-btn {
@@ -63,7 +66,7 @@
       font-size: 15px;
       font-weight: 600;
       letter-spacing: 0.08em;
-      padding: 11px 48px;
+      padding: 11px 36px;
       border-radius: 50px;
       text-decoration: none;
       box-shadow: 0 6px 20px rgba(242,196,196,0.5);
@@ -79,6 +82,30 @@
     .cta-btn:active {
       transform: translateY(0);
     }
+
+    .outline-btn {
+      display: inline-block;
+      background: transparent;
+      color: #5a2d2d;
+      font-family: 'Noto Serif KR', serif;
+      font-size: 15px;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+      padding: 11px 36px;
+      border-radius: 50px;
+      border: 1.5px solid #F2C4C4;
+      text-decoration: none;
+      transition: all 0.22s ease;
+    }
+
+    .outline-btn:hover {
+      background: #F9DEDE;
+      transform: translateY(-2px);
+    }
+
+    .outline-btn:active {
+      transform: translateY(0);
+    }
   </style>
 </head>
 <body>
@@ -86,7 +113,10 @@
   <div class="poster-wrap">
     <img src="https://raw.githubusercontent.com/simjimind/Yeonriji/main/image/34.webp" alt="연리지 34기 포스터">
     <div class="btn-wrap">
-      <a href="https://www.simjimind.co.kr/apply/yeonriji" class="cta-btn" target="_blank" rel="noopener">
+      <a href="https://simjimind.github.io/Yeonriji/yeonriji_web_catalog.html" class="outline-btn" target="_blank" rel="noopener">
+        프로그램 자세히보기
+      </a>
+      <a href="https://www.simjimind.co.kr/apply/yeonriji" class="outline-btn" target="_blank" rel="noopener">
         신청하기
       </a>
     </div>
