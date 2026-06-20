@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>부모 격려 플래시카드</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@400;500&family=Noto+Serif+KR:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: url('https://www.simjimind.co.kr/006b.webp') center center / cover no-repeat rgba(253,248,243,0.0);
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2.5rem 1rem 3rem;
+    color: #3a2e28;
+  }
+
+  .title-wrap {
+    text-align: center;
+    margin-bottom: 1.75rem;
+  }
+  .title-wrap h1 {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 20px;
+    font-weight: 600;
+    color: #5c3d2e;
+    letter-spacing: -0.01em;
+    margin-bottom: 4px;
+  }
+  .title-wrap p {
+    font-size: 12px;
+    color: #b89080;
+    letter-spacing: .02em;
+  }
+
+  .tabs {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 1.25rem;
+  }
+  .tab-btn {
+    padding: 7px 20px;
+    border-radius: 20px;
+    border: 1px solid #e8cfc0;
+    background: rgba(255,255,255,0.75);
+    color: #a07060;
+    font-size: 13px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: all .2s;
+  }
+  .tab-btn.active {
+    background: #c97d5a;
+    color: #fff;
+    border-color: #c97d5a;
+  }
+
+  .prog-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    max-width: 500px;
+    margin-bottom: 1rem;
+  }
+  .prog-txt { font-size: 12px; color: #b89080; min-width: 48px; }
+  .prog-bar {
+    flex: 1; height: 3px;
+    background: #f0ddd0;
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%;
+    background: #c97d5a;
+    border-radius: 2px;
+    transition: width .4s ease;
+  }
+  .shf-btn {
+    font-size: 12px; color: #b89080;
+    background: none; border: none;
+    cursor: pointer; text-decoration: underline;
+    font-family: 'Noto Sans KR', sans-serif; padding: 0;
+  }
+
+  .card-area {
+    width: 100%;
+    max-width: 500px;
+    height: 320px;
+    perspective: 1200px;
+    cursor: pointer;
+    margin-bottom: 1.25rem;
+    background: transparent;
+  }
+  .card-inner {
+    position: relative;
+    width: 100%; height: 100%;
+    transition: transform .6s cubic-bezier(.4,0,.2,1);
+    transform-style: preserve-3d;
+    background: transparent;
+  }
+  .card-inner.flipped { transform: rotateY(180deg); }
+
+  .card-face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    border-radius: 18px;
+    padding: 1.75rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .card-front {
+    background: rgba(255,255,255,0.65);
+    border: 1px solid #f0ddd0;
+    box-shadow: 0 2px 16px rgba(180,120,80,.07);
+  }
+  .card-back {
+    background: rgba(254,240,230,0.65);
+    border: 1px solid #e8c8b0;
+    box-shadow: 0 2px 16px rgba(180,120,80,.10);
+    transform: rotateY(180deg);
+  }
+
+  .card-lbl {
+    font-size: 10px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    text-align: center;
+  }
+  .card-front .card-lbl { color: #c9a898; }
+  .card-back .card-lbl { color: #c97d5a; }
+
+  .card-txt {
+    font-size: 15px;
+    line-height: 1.85;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+    text-align: center;
+  }
+  .card-front .card-txt {
+    font-family: 'Noto Sans KR', sans-serif;
+    color: #5c3d2e;
+  }
+  .card-back .card-txt {
+    font-family: 'Noto Serif KR', serif;
+    color: #7a4030;
+    font-size: 15.5px;
+  }
+
+  .card-desc {
+    font-size: 11px;
+    line-height: 1.75;
+    color: #b07050;
+    margin-top: 14px;
+    padding-top: 12px;
+    border-top: 1px solid #e8c8b0;
+    font-family: 'Noto Sans KR', sans-serif;
+    text-align: center;
+    word-break: keep-all;
+    overflow-wrap: break-word;
+  }
+
+  .blank {
+    display: inline-block;
+    width: 88px;
+    border-bottom: 1.5px solid #c97d5a;
+    margin: 0 3px;
+    vertical-align: bottom;
+  }
+
+  .card-hint {
+    font-size: 11px;
+    color: #d4b0a0;
+    text-align: center;
+    margin-top: 16px;
+  }
+
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    width: 100%;
+    max-width: 500px;
+  }
+  .nav-btn {
+    padding: 9px 22px;
+    border-radius: 10px;
+    border: 1px solid #e8cfc0;
+    background: rgba(255,255,255,0.75);
+    color: #a07060;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .nav-btn:hover { background: #fdf0e8; }
+  .nav-btn:disabled { opacity: .3; cursor: default; }
+
+  .flip-btn {
+    padding: 9px 24px;
+    border-radius: 10px;
+    border: 1px solid #c97d5a;
+    background: #c97d5a;
+    color: #fff;
+    font-size: 14px;
+    font-family: 'Noto Sans KR', sans-serif;
+    cursor: pointer;
+    transition: background .15s;
+  }
+  .flip-btn:hover { background: #b86d4a; }
+
+  .footer {
+    margin-top: 2.5rem;
+    font-size: 11.5px;
+    color: #c9a898;
+    text-align: center;
+    letter-spacing: .02em;
+  }
+</style>
+</head>
+<body>
+
+<div class="title-wrap">
+  <h1>부모 격려 플래시카드</h1>
+  <p>심리상담연구소 심지 · 연리지 부모교육</p>
+</div>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="prog-row">
+  <span class="prog-txt" id="prog-txt">1 / 10</span>
+  <div class="prog-bar"><div class="prog-fill" id="prog-fill" style="width:10%"></div></div>
+  <button class="shf-btn" onclick="shuffle()">↺ 섞기</button>
+</div>
+
+<div class="card-area" onclick="flipCard()">
+  <div class="card-inner" id="card-inner">
+    <div class="card-face card-front">
+      <div class="card-lbl">이렇게 말하고 싶을 때</div>
+      <div class="card-txt" id="front-txt"></div>
+      <div class="card-hint">격려의 언어로 표현해볼까요?</div>
+    </div>
+    <div class="card-face card-back">
+      <div class="card-lbl">이렇게 말해볼 수 있어요</div>
+      <div class="card-txt" id="back-txt"></div>
+      <div class="card-desc" id="back-desc"></div>
+    </div>
+  </div>
+</div>
+
+<div class="nav-row">
+  <button class="nav-btn" id="prev-btn" onclick="move(-1)">← 이전</button>
+  <button class="flip-btn" onclick="flipCard()">뒤집기</button>
+  <button class="nav-btn" id="next-btn" onclick="move(1)">다음 →</button>
+</div>
+
+<script>
+const DATA = {
+  "자녀에게": [
+    {
+      f: "넌 왜 맨날 그 모양이니? 도대체 언제 제대로 할래?",
+      b: "생각대로 안 돼서 서운했겠다. 그래도 혼자 해본 건 의미 있는 도전인 것 같아.",
+      d: "'왜' '맨날' 같은 빈도부사는 지금 상황을 가르치는 것이 아니라<br>존재를 평가하는 말로 들리게 합니다. 지금 현재의 상황에서 배울 수 있는 것을 알려주세요."
+    },
+    {
+      f: "엄마(아빠)가 시키는 대로 해. 다 널 위해서 그러는 거야.",
+      b: "엄마(아빠)는 네 의견이 듣고 싶어. 어떻게 해보는 게 좋을 것 같아?",
+      d: "부모가 답을 정해주고 따라오게 하면 아이는 늘 정답을 다른 사람에게 구하고 의존하게 됩니다."
+    },
+    {
+      f: "형(언니) 반만이라도 좀 따라가 봐라.",
+      b: "네가 <span class='blank'></span> 를 할 때 정말 행복해 보여. 정말 좋아하는 것 같아.",
+      d: "아이들 개개인의 고유한 특성을 발견해주세요. 나와 다른 사람들을 이해하는 기초가 됩니다."
+    },
+    {
+      f: "백 점 맞았어? 참 잘했다! 다음에도 꼭 이렇게 해.",
+      b: "끝까지 최선을 다하던 네 모습이 결실을 맺게 돼서 너무 좋다. 축하해.",
+      d: "결과를 평가하는 칭찬은 아이가 다음에도 좋은 결과를 받아야 한다는 불안과 긴장을 동반하기 쉽습니다."
+    },
+    {
+      f: "이건 네가 할 수 있는 일이 아니야. 어차피 쏟을 테니 내가 다 해줄게.",
+      b: "실수해도 도전하면서 배우는 게 있을 거야. 혼자 해보려는 네 모습이 좋아 보여. 응원해.",
+      d: "부모님이 해주시면 결과가 좋아도 내가 한 일이 아니라서 성취감을 얻을 수 없습니다. 불완전한 수행을 격려해주세요."
+    },
+    {
+      f: "거봐, 내가 그럴 줄 알았다! 또 실수했지?",
+      b: "잘하고 싶었을 텐데 많이 실망했겠다. 그래도 이번에 <span class='blank'></span> 는 더 나아진 것 같아.",
+      d: "실수했을 때 비난받으면 다시 도전하기 두려워집니다. 다시 일어서도록 격려가 필요합니다."
+    },
+    {
+      f: "뚝 안 그쳐? 넌 도대체 왜 그렇게 툭하면 우니!",
+      b: "정말 속상한 일이 있었나 보구나. 언제든 마음이 가라앉으면 이야기해줘. 기다리고 있을게.",
+      d: "감정이 복받쳤을 때 대화가 어렵습니다. 스스로 자신을 챙길 수 있도록 기다려주세요."
+    },
+    {
+      f: "방 꼴이 이게 뭐야! 지금 당장 안 치워?",
+      b: "와... 이 방을 어떻게 하는 게 좋을까? 좋은 방법이 없을까?",
+      d: "가끔은 여유를 가지고 상황을 거리를 두고 바라보아 주십시오. 지치지 않도록 하는 유머는 가장 강력한 치유의 도구입니다."
+    },
+    {
+      f: "넌 도대체 커서 뭐가 되려고 그러니?",
+      b: "엄마(아빠)는 네 행동에 많이 실망했어. 네가 한 행동을 다시 돌아봤으면 좋겠다.",
+      d: "많이 실망하셨나요? 비난보다는 솔직한 자기표현이 더 도움이 될 수 있습니다."
+    },
+    {
+      f: "너 때문에 엄마(아빠)가 힘들어 죽겠다.",
+      b: "엄마(아빠)가 좀 지쳤나 봐. 그래도 너와 꼭 이 일을 해결할 길을 찾고 싶어.",
+      d: "많이 속상하시죠. 지금은 그 어느 때보다 내 마음을 돌보셔야 할 때입니다."
+    }
+  ],
+  "나 자신에게": [
+    {
+      f: "나는 왜 이렇게 부족하고 서툰 부모일까?",
+      b: "노력한 만큼 잘 되지 않아서 속상하지. 그래도 알아차리고 있는 거니까. 다음엔 좀 더 잘할 수 있을 거야.",
+      d: "내가 부족했다는 걸 알아차리는 건 더 나아지고 싶다는 의지입니다. 분명 조금씩 달라지고 있을 거예요. 한번에 좋아지지 않지만 분명히 더 좋아집니다."
+    },
+    {
+      f: "다른 집 부모들은 다 잘하는데, 나만 뒤처지는 것 같아.",
+      b: "난 지구상에서 유일한 OO의 엄마(아빠)야. 다른 사람들과 비교하지 말자. 이건 정말 특별한 인연이니까.",
+      d: "하늘이 맺어준 귀한 인연으로 우리는 서로를 성장시키며 살아갑니다. 밉든 곱든 누구와도 비교할 수 없는 인연으로 아이와 내가 연결되어 있습니다."
+    },
+    {
+      f: "아까 또 참지 못하고 화를 냈어. 난 구제 불능이야.",
+      b: "나는 왜 그렇게 화가 났을까? 정말은 무슨 말을 하고 싶었던 걸까.",
+      d: "분노에는 내가 이루고 싶었던 바람과 의지와 열정이 숨어있습니다. 내가 진정으로 이루고 싶어하는 것이 무엇인지 내 이야기를 들어주세요."
+    },
+    {
+      f: "내가 다 챙겨주지 않으면 우리 아이는 망쳐버릴 거야.",
+      b: "내 아이를 믿어보자. 실수에서 일어서는 것도 내가 곁에 있을 때 배우는 게 나은 거니까.",
+      d: "스스로 도전하고 실패하고 고민하고 성공하는 그 과정을 배우는 것이<br>성공이라는 결과를 따내는 일보다 더 중요하고 필요합니다. 자녀가 세상 속에서 단단해지도록 믿는 마음으로 응원해주세요."
+    },
+    {
+      f: "오늘 하루 종일 아이랑 싸우기만 했어. 최악의 하루야.",
+      b: "오늘 정말 속상한 날이지. 잘 지내고 싶은 마음인건데... 나를 어떻게 도와줄까.",
+      d: "이제 아이와 내게 시간을 허락해주십시오. 내가 놓친 것은 없는지, 아이도 나도 돌아볼 시간이 필요합니다. 무엇보다 마음 아픈 나를 안아주세요."
+    },
+    {
+      f: "사람들이 내 육아 방식을 흉보고 쯧쯧거리면 어쩌지?",
+      b: "사람들은 다들 자기 일로 바빠. 중요한 건 내가 후회하지 않는 선택을 하는 거야. 나와 우리 아이에게 가장 지혜로운 선택이 뭘까.",
+      d: "정말 중요한 사람의 조언이라면 감사하는 마음으로 경청하고 참고하십시오. 그러나 나와 내 아이의 삶의 최종 결정은 나와 아이가 결정해야 합니다. 타인에게 휘둘리지 않고 자신의 삶을 살아가는 모습을 삶으로 보여주십시오."
+    },
+    {
+      f: "내 인생은 아이 뒷바라지하다가 끝나는 것 같아. 억울해.",
+      b: "나도 작게나마 내 생활을 만들어보자. 난 뭘 하면 좋아할까?",
+      d: "자녀를 위해 내 삶을 희생하면 자녀는 타인의 삶이 희생되는 것은 어쩔 수 없는 일이라는 자기중심적인 생각을 가지게 될 수 있습니다. 진정한 관계는 서로의 삶을 존중하고 배려함으로 성숙되어 갑니다."
+    },
+    {
+      f: "아이가 내 말을 안 듣는 걸 보니 날 만만하게 보고 무시하는 게 분명해.",
+      b: "나를 반대하는 건 자신만의 또 다른 아이디어가 있다는 뜻이야. 일단 내 기분을 가라앉히면, 아이만의 생각을 들어보자. 내가 모르는 뭔가가 있을지도 모르니까.",
+      d: "반대는 다양성의 전제입니다. 자녀가 다른 의견을 말하는 것은 상황을 보는 자신만의 시선이 생겼다는 좋은 증거입니다. 의견이 달라도 새로운 대안이 생길 수 있음을 경험하게 해주십시오."
+    },
+    {
+      f: "나도 내 부모한테 이렇게 컸으니 욱하는 성질은 변할 수 없어.",
+      b: "내가 우리 엄마 아빠의 모습을 나도 모르게 따라하고 있는 건가. 내 마음을 돌아볼 때가 된 건가 보다.",
+      d: "어린 시절의 상처는 양육 환경에서 자주 부정적인 패턴을 보일 수 있습니다. 통제할 수 없는 부정적인 감정이 반복된다면,<br>내 마음이 이 상처에서 벗어나 더 성장하고 싶어한다는 신호일 수 있습니다."
+    },
+    {
+      f: "피곤해 죽겠는데 내가 쉬면 안 돼. 내가 다 해야 해.",
+      b: "난 내 불완전함을 사랑할래. 노력했고, 애썼어. 충분하고 훌륭해. 사랑한다. 있는 그대로.",
+      d: "모든 자연은 하나하나 불완전함으로서 온전함을 이룹니다. 나의 불완전함을 사랑하는 용기를 배울 때입니다."
+    }
+  ]
+};
+
+const cats = Object.keys(DATA);
+let curCat = cats[0], deck = [...DATA[curCat]], idx = 0, flipped = false;
+
+function buildTabs() {
+  const w = document.getElementById('tabs');
+  w.innerHTML = '';
+  cats.forEach(c => {
+    const b = document.createElement('button');
+    b.className = 'tab-btn' + (c === curCat ? ' active' : '');
+    b.textContent = c + ' (10)';
+    b.onclick = () => { curCat = c; deck = [...DATA[c]]; idx = 0; flipped = false; buildTabs(); render(); };
+    w.appendChild(b);
+  });
+}
+
+function render() {
+  const card = deck[idx];
+  document.getElementById('front-txt').innerHTML = card.f.replace(/([.!?~]\s+)/g, '$1<br>');
+  document.getElementById('back-txt').innerHTML = card.b.replace(/([.!?~]\s+)/g, '$1<br>');
+  const descEl = document.getElementById('back-desc');
+  if (card.d) {
+    descEl.innerHTML = card.d.replace(/([.!?]\s+)/g, '$1<br>');
+    descEl.style.display = 'block';
+  } else {
+    descEl.style.display = 'none';
+  }
+  document.getElementById('prog-txt').textContent = (idx + 1) + ' / ' + deck.length;
+  document.getElementById('prog-fill').style.width = ((idx + 1) / deck.length * 100) + '%';
+  document.getElementById('prev-btn').disabled = idx === 0;
+  document.getElementById('next-btn').disabled = idx === deck.length - 1;
+  document.getElementById('card-inner').classList.toggle('flipped', flipped);
+}
+
+function flipCard() {
+  flipped = !flipped;
+  document.getElementById('card-inner').classList.toggle('flipped', flipped);
+}
+
+function move(d) {
+  const n = idx + d;
+  if (n < 0 || n >= deck.length) return;
+  idx = n; flipped = false; render();
+}
+
+function shuffle() {
+  for (let i = deck.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [deck[i], deck[j]] = [deck[j], deck[i]];
+  }
+  idx = 0; flipped = false; render();
+}
+
+buildTabs();
+render();
+</script>
+</body>
+</html>
