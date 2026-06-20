@@ -11,13 +11,27 @@
 
   body {
     font-family: 'Noto Sans KR', sans-serif;
-    background: url('https://www.simjimind.co.kr/006b.webp') center center / cover no-repeat rgba(253,248,243,0.0);
+    background: url('https://www.simjimind.co.kr/006b.webp') center center / cover no-repeat;
+    background-color: #fdf8f3;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
     padding: 2.5rem 1rem 3rem;
     color: #3a2e28;
+    position: relative;
+  }
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background: rgba(253,245,238,0.45);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .title-wrap, .tabs, .prog-row, .card-area, .nav-row, .footer {
+    position: relative;
+    z-index: 1;
   }
 
   .title-wrap {
@@ -118,12 +132,12 @@
   }
 
   .card-front {
-    background: rgba(255,255,255,0.65);
+    background: rgba(255,255,255,0.88);
     border: 1px solid #f0ddd0;
     box-shadow: 0 2px 16px rgba(180,120,80,.07);
   }
   .card-back {
-    background: rgba(254,240,230,0.65);
+    background: rgba(254,240,230,0.88);
     border: 1px solid #e8c8b0;
     box-shadow: 0 2px 16px rgba(180,120,80,.10);
     transform: rotateY(180deg);
@@ -285,7 +299,7 @@ const DATA = {
     {
       f: "백 점 맞았어? 참 잘했다! 다음에도 꼭 이렇게 해.",
       b: "끝까지 최선을 다하던 네 모습이 결실을 맺게 돼서 너무 좋다. 축하해.",
-      d: "결과를 평가하는 칭찬은 아이가 다음에도 좋은 결과를 받아야 한다는 불안과 긴장을 동반하기 쉽습니다."
+      d: "결과를 평가하는 칭찬은 아이가 다음에도 좋은 결과를 받아야 한다는<br>불안과 긴장을 동반하기 쉽습니다."
     },
     {
       f: "이건 네가 할 수 있는 일이 아니야. 어차피 쏟을 테니 내가 다 해줄게.",
